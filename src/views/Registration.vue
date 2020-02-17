@@ -1,56 +1,61 @@
 <template>
-    <div class="bla">
-        <h1>Registration</h1>
-        <form>  
-            <!--napraviti da je neophodno ineti podatke-->
-            <label for="fname">First Name</label>
-            <input type="text" placeholder="Insert name.." v-model="name">
-            <label for="lname">Last Name</label>
-            <input type="text" placeholder="Insert lastanem.." v-model="surname">
-            <label for="email">E-mail</label>
-            <input type="text" placeholder="Insert email.." v-model="email">
-            <label for="password">Password</label>
-            <input type="password" placeholder="Insert password.." v-model="password">
-            <button @click="registration()">Registration</button>
-        </form>
-    </div>
+  <div class="bla" v-if="!isRegistrated">
+    <h1>Registration</h1>
+    <form>
+      <!--napraviti da je neophodno ineti podatke-->
+      <label for="fname">First Name</label>
+      <input type="text" placeholder="Insert name.." v-model="name" />
+      <label for="lname">Last Name</label>
+      <input type="text" placeholder="Insert lastanem.." v-model="surname" />
+      <label for="email">E-mail</label>
+      <input type="text" placeholder="Insert email.." v-model="email" />
+      <label for="password">Password</label>
+      <input type="password" placeholder="Insert password.." v-model="password" />
+    </form>
+      <button @click="registration()">Registration</button>
+
+  </div>
 </template>
     
 <script>
-import axios from 'axios'
+import axios from "axios";
 export default {
-    data(){
+  data() {
     return {
       name: null,
       surname: null,
       email: null,
-      password: null
-    }
+      password: null,
+      isRegistrated: false
+
+    };
   },
   methods: {
-    registration(){
-      axios.post('http://044z122.mars-e1.mars-hosting.com/user-api/auth/signup',  { 
-        name: this.name,
-        surname: this.surname,
-        email: this.email,
-        password: this.password 
-      }).then(resp => {
-        console.log(resp);
-        console.log('uspesna registracija');
-      })
-
-      //upisani su podaci u bazi u treba ih resetovati
-      this.name = null,
-      this.surname = null,
-      this.email = null,
-      this.password = null
-    }
+    registration() {
+      axios
+        .post("http://044z122.mars-e1.mars-hosting.com/user-api/auth/signup", {
+          name: this.name,
+          surname: this.surname,
+          email: this.email,
+          password: this.password
+        })
+        .then(resp => {
+          console.log(resp);
+          console.log("uspesna registracija");
+          this.isRegistrated = true;
+        })
+        .catch(err => {
+          console.log(err);   
+          console.log('neuspesna registarcija')
+        });
+    },
   }
-}
+};
 </script>
 
 <style scoped>
-input[type=text], input[type=password] {
+input[type="text"],
+input[type="password"] {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -62,7 +67,7 @@ input[type=text], input[type=password] {
 
 button {
   width: 100%;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   padding: 14px 20px;
   margin: 8px 0;
@@ -81,7 +86,6 @@ button:hover {
   padding: 20px;
   width: 50%;
   margin-left: 25%;
-}   
-    
+}
 </style>>
 

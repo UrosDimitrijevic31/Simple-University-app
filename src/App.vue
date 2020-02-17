@@ -4,7 +4,9 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> |
       <router-link to="/login">Login</router-link> |
-      <router-link to="/registartion">Registration</router-link>
+      <keep-alive>
+      <router-link to="/registartion">Registration</router-link> <!-- nemam mounted nego created-->
+      </keep-alive>
     </div>
       <router-view/>
   </div>

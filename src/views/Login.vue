@@ -9,10 +9,9 @@
         <button @click="login()">LogIn</button>
       </div>
       <div v-if="isLoggedIn">
-          <h1>You are LoggedIn</h1>
-        <button  @click="logout()">LogOut</button>
+        <h1>You are LoggedIn</h1>
+        <button @click="logout()">LogOut</button>
       </div>
-      {{email}}
   </div>
 </template>
 
@@ -24,7 +23,6 @@ export default {
             email: null,
             password: null,
             isLoggedIn: false,
-            user: []
         }
     },
     methods: {
@@ -38,37 +36,34 @@ export default {
                 console.log('usepsno logovanje')
                 //sacuvali smo sid u localstorage-u, objekat sesije, sa njim sve radimo
                 sessionStorage.setItem('sid', res.data.sid);
-
+                sessionStorage.setItem('user', res.data.user); //prosledio sam id
+                //treba nam da znamo da li je user ulogovan, nije dobro da stoji ovde        
                 this.isLoggedIn = true;
-
-                this.user = sessionStorage.getItem('user');
-                console.log('ovo je getItem',sessionStorage.getItem('user'))
                
             }).catch(err => {
                 console.log(err);
                 console.log('pogresno uneti email ili pass')
             })
-            //treba da resetoju vrednosti, ali moram da pogledam kako se ponasa zbog sesije
-            // this.email = null,
-            // this.password = null
-        },
-        logout(){
-            axios.post('http://044z122.mars-e1.mars-hosting.com/user-api/auth/logout'), {         
 
-            }
+
+        },
+        //mars sam zna sta da uradi kad mu posaljemo sid, treba samo da ga posaljemo
+        logout(){
+            axios.post('http://044z122.mars-e1.mars-hosting.com/user-api/auth/logout', {         
+                sid: sessionStorage.getItem('sid')
+            })
             .then(res => {
                 console.log(res.data)
-                console.log('usepsno logout')
                 this.isLogin = false;
-                //sacuvali smo sid u localstorage-u, objekat sesije
-         
+                sessionStorage.removeItem('sid');
+                sessionStorage.removeItem('user');
+                console.log('usepsno logout')
             }).catch(err => {
                 console.log(err);
                 console.log('nesto ne valja')
             })
-            //treba da resetoju vrednosti, ali moram da pogledam kako se ponasa zbog sesije
-            // this.email = null,
-            // this.password = null
+            
+            this.isLoggedIn = false;
         }
     }
 }
