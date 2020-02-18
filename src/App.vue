@@ -2,11 +2,9 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> |
+      <router-link to="/update">Update</router-link> |
       <router-link to="/login">Login</router-link> |
-      <keep-alive>
       <router-link to="/registartion">Registration</router-link> <!-- nemam mounted nego created-->
-      </keep-alive>
     </div>
       <router-view/>
   </div>

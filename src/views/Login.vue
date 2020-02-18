@@ -12,6 +12,11 @@
         <h1>You are LoggedIn</h1>
         <button @click="logout()">LogOut</button>
       </div>
+
+      <div v-if="isAdmin">
+        cao admine
+      </div>
+      
   </div>
 </template>
 
@@ -23,6 +28,8 @@ export default {
             email: null,
             password: null,
             isLoggedIn: false,
+            isAdmin: false,
+            rolName: ''
         }
     },
     methods: {
@@ -39,6 +46,12 @@ export default {
                 sessionStorage.setItem('user', res.data.user); //prosledio sam id
                 //treba nam da znamo da li je user ulogovan, nije dobro da stoji ovde        
                 this.isLoggedIn = true;
+                this.rolName = res.data.rolaName;
+                console.log('naziv role je',res.data.rolaName)
+
+                if(this.rolName === 'admin'){
+                  this.isAdmin = true;
+                }
                
             }).catch(err => {
                 console.log(err);
@@ -58,9 +71,11 @@ export default {
                 sessionStorage.removeItem('sid');
                 sessionStorage.removeItem('user');
                 console.log('usepsno logout')
+                this.isAdmin = false;
+                console.log('da li je admin',this.isAdmin)
+                this.rolName = '';
             }).catch(err => {
-                console.log(err);
-                console.log('nesto ne valja')
+                console.log('nesto ne valja', err)
             })
             
             this.isLoggedIn = false;

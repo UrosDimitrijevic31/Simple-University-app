@@ -69,8 +69,13 @@ export default {
 </script>
 
 <style scoped>
+.home{
+  width:40%;
+  margin-left: 30%; 
+}
   input, button{
-    display: inline-block;
+    display: block;
     color: green;
+    margin: 5px;
   }
 </style>

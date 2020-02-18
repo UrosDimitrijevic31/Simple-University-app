@@ -1,8 +1,11 @@
 <template>
+<div>
   <div class="bla" v-if="!isRegistrated">
     <h1>Registration</h1>
-    <form>
+    <div>
       <!--napraviti da je neophodno ineti podatke-->
+      <label for="fname">Username</label>
+      <input type="text" placeholder="Insert username.." v-model="username" />
       <label for="fname">First Name</label>
       <input type="text" placeholder="Insert name.." v-model="name" />
       <label for="lname">Last Name</label>
@@ -11,10 +14,19 @@
       <input type="text" placeholder="Insert email.." v-model="email" />
       <label for="password">Password</label>
       <input type="password" placeholder="Insert password.." v-model="password" />
-    </form>
+    </div>
+    <div v-if="isAdmin">  
+      <input type="radio" name="rola" >Admin
+      <input type="radio" name="rola" >User
+    </div>
       <button @click="registration()">Registration</button>
 
   </div>
+      <div v-if="isRegistrated">
+        <p>You are successfully registered </p> 
+      </div>
+  </div>
+  
 </template>
     
 <script>
@@ -22,11 +34,14 @@ import axios from "axios";
 export default {
   data() {
     return {
+      username: null,
       name: null,
       surname: null,
       email: null,
       password: null,
-      isRegistrated: false
+      isRegistrated: false,
+      isAdmin: false,
+      rolName: ''
 
     };
   },
@@ -34,6 +49,7 @@ export default {
     registration() {
       axios
         .post("http://044z122.mars-e1.mars-hosting.com/user-api/auth/signup", {
+          username: this.username,
           name: this.name,
           surname: this.surname,
           email: this.email,
@@ -43,6 +59,7 @@ export default {
           console.log(resp);
           console.log("uspesna registracija");
           this.isRegistrated = true;
+          
         })
         .catch(err => {
           console.log(err);   
