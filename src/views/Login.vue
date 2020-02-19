@@ -1,6 +1,6 @@
 <template>
   <div class="bla">
-      <div v-if="!isLoggedIn">
+      <div v-if="!$store.state.isLoggedIn">
         <h1>Login</h1>
         <label for="emial">Email</label>
         <input type="email" placeholder="Insert email.." v-model="email">
@@ -8,12 +8,12 @@
         <input type="password" placeholder="Insert password.." v-model="password">
         <button @click="login()">LogIn</button>
       </div>
-      <div v-if="isLoggedIn">
+      <div v-if="$store.state.isLoggedIn">
         <h1>You are LoggedIn</h1>
         <button @click="logout()">LogOut</button>
       </div>
 
-      <div v-if="isAdmin">
+      <div v-if="$store.state.isAdmin">
         cao admine
       </div>
       
@@ -27,8 +27,6 @@ export default {
         return{
             email: null,
             password: null,
-            isLoggedIn: false,
-            isAdmin: false,
             rolName: ''
         }
     },
@@ -45,13 +43,17 @@ export default {
                 sessionStorage.setItem('sid', res.data.sid);
                 sessionStorage.setItem('user', res.data.user); //prosledio sam id
                 //treba nam da znamo da li je user ulogovan, nije dobro da stoji ovde        
-                this.isLoggedIn = true;
+                this.$store.state.isLoggedIn = true;
                 this.rolName = res.data.rolaName;
                 console.log('naziv role je',res.data.rolaName)
+             
+                console.log('ovo je iz vuexa isLogedIn ', this.$store.state.isLoggedIn)
+
 
                 if(this.rolName === 'admin'){
-                  this.isAdmin = true;
+                  this.$store.state.isAdmin = true;
                 }
+                console.log('ovo je iz vuexa isAdmin ', this.$store.state.isAdmin)
                
             }).catch(err => {
                 console.log(err);
@@ -67,18 +69,20 @@ export default {
             })
             .then(res => {
                 console.log(res.data)
-                this.isLogin = false;
+                this.$store.state.isLoggedIn = false;
                 sessionStorage.removeItem('sid');
                 sessionStorage.removeItem('user');
                 console.log('usepsno logout')
-                this.isAdmin = false;
-                console.log('da li je admin',this.isAdmin)
+                this.$store.state.isAdmin = false;
+                // console.log('da li je admin',this.isAdmin)
+                console.log('ovo je iz vuexa isAdmin ', this.$store.state.isAdmin)
+                console.log('ovo je iz vuexa isLogedIn ', this.$store.state.isLoggedIn)
                 this.rolName = '';
             }).catch(err => {
                 console.log('nesto ne valja', err)
             })
             
-            this.isLoggedIn = false;
+            this.$store.state.isLoggedIn = false;
         }
     }
 }

@@ -1,23 +1,27 @@
 <template>
   <div class="update">
     <h1>This is an update page</h1>
-    <div>
-      <input type="text" v-model="computedUsername" placeholder="Insert username.." />
-      <p>{{username}} {{usernameChanged}}</p>
-    </div>
-    <div>
-      <input type="text" v-model="computedPassword" placeholder="Insert password.." />
-      <p>{{password}} {{passwordChanged}}</p>
-    </div>
-    <div>
-      <input type="text" v-model="computedName" placeholder="Insert name.." />
+    <div >
+      <div>
+      <label v-if="$store.state.isLoggedIn">Your name is: {{name}} </label>
+      <input type="text" v-model="computedName" placeholder="Insert new name.." />
       <p>{{name}} {{nameChanged}}</p>
     </div>
     <div>
-      <input type="text" v-model="computedSurname" placeholder="Insert surname.." />
+      <label v-if="$store.state.isLoggedIn">Your surname is: </label>
+      <input type="text" v-model="computedSurname" placeholder="Insert new surname.." />
       <p>{{surname}} {{surnameChanged}}</p>
     </div>
-
+      <label v-if="$store.state.isLoggedIn">Your username is: </label>
+      <input type="text" v-model="computedUsername" placeholder="Insert new username.." />
+      <p>{{username}} {{usernameChanged}}</p>
+    </div>
+    <div>
+      <label v-if="$store.state.isLoggedIn">Your password is not visible: </label>
+      <input type="password" v-model="computedPassword" placeholder="Insert new password.." />
+      <p>{{password}} {{passwordChanged}}</p>
+    </div>
+    
     <input type="button" value="submit" @click="update()" />
   </div>
 </template>
@@ -29,7 +33,7 @@ export default {
     return {
       username: "",
       password: "",
-      name: "uros",
+      name: "",
       surname: "",
       usernameChanged: false,
       passwordChanged: false,
@@ -107,34 +111,47 @@ export default {
       //komunikacija sa api-jem
        axios.patch('http://044z122.mars-e1.mars-hosting.com/user-api/auth/update', {
         sid: params.sid,
-        usr_username: params.usr_username
+        usr_username: params.usr_username,
+        usr_password: params.usr_password,
+        usr_name: params.usr_name,
+        usr_surname: params.usr_surname
       })
       .then(res => {
-        res
+        console.log(res.data)
         console.log('korisnik je upisan u bazu', res)
+        this.name = res.data.info[0].usr_name;
       })
       .catch(err => {
-        console.log(err+'greska pri abdejtovanju podataka')
+        console.log(err, 'greska pri abdejtovanju podataka')
       })
-    },
-    // sendRequest(){
-    //   //staviti url u konstantu
-    //   axios.patch('http://044z122.mars-e1.mars-hosting.com/user-api/auth/update', {
-    //     params: this.params
-    //   })
-    //   .then(res => {
-    //     console.log('korisnik je upisan u bazu'+res)
-    //   })
-    //   .catch(err => {
-    //     console.log(err)
-    //   })    
-    // }
+      this.username = "",
+      this.password = "",
+      this.name = "",
+      this.surname = ""
+    }
+    
   }
 };
 </script>
 <style scoped>
 div {
   display: block;
-  color: blue;
+}
+h1{
+  margin-bottom: 40px;
+}
+div.update{
+  margin-top: 5%
+}
+label{
+  display: block;
+  font-size: 20px;
+}
+input[type=text],input[type=password]{
+  width: 300px;
+  height: 30px;
+}
+p{
+  color: green;
 }
 </style>

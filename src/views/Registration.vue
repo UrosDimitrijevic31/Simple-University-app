@@ -15,7 +15,7 @@
       <label for="password">Password</label>
       <input type="password" placeholder="Insert password.." v-model="password" />
     </div>
-    <div v-if="isAdmin">  
+    <div v-if="$store.state.isAdmin">  
       <input type="radio" name="rola" >Admin
       <input type="radio" name="rola" >User
     </div>
@@ -59,7 +59,6 @@ export default {
           console.log(resp);
           console.log("uspesna registracija");
           this.isRegistrated = true;
-          
         })
         .catch(err => {
           console.log(err);   

@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <HelloWorld msg="Welcome to Simple User Interface"/>
+    <HelloWorld msg="Welcome to site for TRAVELING"/>
 
       <button @click="users()">Get all users</button> 
       <div v-for="(user, index) in info" :key="index">
