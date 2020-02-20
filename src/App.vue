@@ -2,8 +2,10 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Home</router-link> |
-      <router-link to="/update">Update</router-link> |
-      <router-link to="/login">Login</router-link> |
+      <router-link v-if="$store.state.isLoggedIn" to="/update">Profile</router-link>
+        <span v-if="$store.state.isLoggedIn"> | </span>
+      <router-link to="/login" v-if="!$store.state.isLoggedIn">Login</router-link> 
+      <router-link to="/login" v-else>Logout</router-link> |
       <router-link to="/registartion">Registration</router-link> <!-- nemam mounted nego created-->
     </div>
       <router-view/>

@@ -1,32 +1,30 @@
 <template>
-<div>
-  <div class="bla" v-if="!isRegistrated">
-    <h1>Registration</h1>
-    <div>
-      <!--napraviti da je neophodno ineti podatke-->
-      <label for="fname">Username</label>
-      <input type="text" placeholder="Insert username.." v-model="username" />
-      <label for="fname">First Name</label>
-      <input type="text" placeholder="Insert name.." v-model="name" />
-      <label for="lname">Last Name</label>
-      <input type="text" placeholder="Insert lastanem.." v-model="surname" />
-      <label for="email">E-mail</label>
-      <input type="text" placeholder="Insert email.." v-model="email" />
-      <label for="password">Password</label>
-      <input type="password" placeholder="Insert password.." v-model="password" />
-    </div>
-    <div v-if="$store.state.isAdmin">  
-      <input type="radio" name="rola" >Admin
-      <input type="radio" name="rola" >User
-    </div>
-      <button @click="registration()">Registration</button>
-
-  </div>
-      <div v-if="isRegistrated">
-        <p>You are successfully registered </p> 
+  <div>
+    <div class="bla" v-if="!isRegistrated">
+      <h1>Registration</h1>
+      <div>
+        <!--napraviti da je neophodno ineti podatke-->
+        <label for="fname">Username</label>
+        <input type="text" placeholder="Insert username.." v-model="username" />
+        <label for="fname">First Name</label>
+        <input type="text" placeholder="Insert name.." v-model="name" />
+        <label for="lname">Last Name</label>
+        <input type="text" placeholder="Insert lastanem.." v-model="surname" />
+        <label for="email">E-mail</label>
+        <input type="text" placeholder="Insert email.." v-model="email" />
+        <label for="password">Password</label>
+        <input type="password" placeholder="Insert password.." v-model="password" />
       </div>
+      <div v-if="$store.state.isAdmin">
+        <input type="radio" name="rola" value="1" v-model="rolName" />Admin
+        <input type="radio" name="rola" value="2" v-model="rolName" />User
+      </div>
+      <button @click="registration()">Registration</button>
+    </div>
+    <div v-if="isRegistrated">
+      <p>You are successfully registered</p>
+    </div>
   </div>
-  
 </template>
     
 <script>
@@ -41,8 +39,7 @@ export default {
       password: null,
       isRegistrated: false,
       isAdmin: false,
-      rolName: ''
-
+      rolName: null
     };
   },
   methods: {
@@ -53,7 +50,8 @@ export default {
           name: this.name,
           surname: this.surname,
           email: this.email,
-          password: this.password
+          password: this.password,
+          rol_id: this.rolName
         })
         .then(resp => {
           console.log(resp);
@@ -61,10 +59,12 @@ export default {
           this.isRegistrated = true;
         })
         .catch(err => {
-          console.log(err);   
-          console.log('neuspesna registarcija')
+          console.log(err);
+          console.log("neuspesna registarcija");
         });
-    },
+      console.log(this.rolName);
+      this.rolName = 2;
+    }
   }
 };
 </script>
@@ -82,7 +82,7 @@ input[type="password"] {
 }
 
 button {
-  width: 100%;
+  width: 30%;
   background-color: #4caf50;
   color: white;
   padding: 14px 20px;
@@ -98,10 +98,18 @@ button:hover {
 
 .bla {
   border-radius: 5px;
-  background-color: #f2f2f2;
+  /* background-color: #f2f2f2; */
   padding: 20px;
-  width: 50%;
-  margin-left: 25%;
+  width: 40%;
+  margin-left: 28%;
+}
+
+h1 {
+  margin-bottom: 35px;
+}
+
+label {
+  font-weight: bold;
 }
 </style>>
 

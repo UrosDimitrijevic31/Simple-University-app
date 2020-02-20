@@ -28,7 +28,9 @@
 <script>
 import axios from 'axios';
 export default {
-  components: {},
+  components: {
+    
+  },
   data() {
     return {
       username: "",

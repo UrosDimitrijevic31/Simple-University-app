@@ -2,19 +2,19 @@
   <div class="bla">
       <div v-if="!$store.state.isLoggedIn">
         <h1>Login</h1>
-        <label for="emial">Email</label>
+        <label for="emial">Insert email</label>
         <input type="email" placeholder="Insert email.." v-model="email">
         <label for="password">Insert password</label>
         <input type="password" placeholder="Insert password.." v-model="password">
         <button @click="login()">LogIn</button>
       </div>
       <div v-if="$store.state.isLoggedIn">
-        <h1>You are LoggedIn</h1>
+        <h1>Hello, {{username}}</h1>   
         <button @click="logout()">LogOut</button>
       </div>
 
       <div v-if="$store.state.isAdmin">
-        cao admine
+        cao admine    
       </div>
       
   </div>
@@ -27,7 +27,8 @@ export default {
         return{
             email: null,
             password: null,
-            rolName: ''
+            rolName: '',
+            username: null
         }
     },
     methods: {
@@ -45,6 +46,7 @@ export default {
                 //treba nam da znamo da li je user ulogovan, nije dobro da stoji ovde        
                 this.$store.state.isLoggedIn = true;
                 this.rolName = res.data.rolaName;
+                this.username = res.data.username;
                 console.log('naziv role je',res.data.rolaName)
              
                 console.log('ovo je iz vuexa isLogedIn ', this.$store.state.isLoggedIn)
@@ -81,7 +83,9 @@ export default {
             }).catch(err => {
                 console.log('nesto ne valja', err)
             })
-            
+            this.email = null,
+            this.password = null,
+            this.username = null,
             this.$store.state.isLoggedIn = false;
         }
     }
@@ -89,6 +93,10 @@ export default {
 </script>
 
 <style scoped>
+h1{
+  margin-bottom: 35px;
+}
+
 input[type=email], input[type=password] {
   width: 100%;
   padding: 12px 20px;
@@ -97,10 +105,13 @@ input[type=email], input[type=password] {
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
+  margin-bottom: 15px;
 }
-
+label {
+  font-weight: bold;
+}
 button {
-  width: 100%;
+  width: 40%;
   background-color: #4CAF50;
   color: white;
   padding: 14px 20px;
@@ -116,7 +127,6 @@ button:hover {
 
 .bla {
   border-radius: 5px;
-  background-color: #f2f2f2;
   padding: 20px;
   width: 20%;
   margin-left: 40%;
