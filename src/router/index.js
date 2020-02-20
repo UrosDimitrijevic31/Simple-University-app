@@ -2,7 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from '@/views/Login.vue'
+import Admin from '@/views/Admin.vue'
 import Registration from '@/views/Registration.vue'
+import AdminUpdateUsers from '@/views/AdminUpdateUsers.vue'
 
 Vue.use(VueRouter)
 
@@ -29,6 +31,16 @@ const routes = [
     path: '/registartion',
     name: 'Registration',
     component: Registration
+  },
+  {
+    path: '/admin',
+    name: 'Admin',
+    component: Admin
+  },
+  {
+    path: '/admin/adminUpdateUsers/:id',
+    name: 'updateUser',
+    component: AdminUpdateUsers
   }
 ]
 
